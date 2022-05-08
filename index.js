@@ -38,7 +38,7 @@ async function run() {
         const myItemsCollection = client.db('posDash').collection('userItems');
 
         // auth
-        app.post('/login', async(req, res) => {
+        app.post('/login', async (req, res) => {
             const user = req.body;
             const accessToken = jwt.sign(user, process.env.JWT_ACCESS_TOKEN, {
                 expiresIn: '1d'
@@ -47,7 +47,7 @@ async function run() {
         })
 
         // testimonials
-        app.get('/testimonials', async(req, res) => {
+        app.get('/testimonials', async (req, res) => {
             const query = {};
             const cursor = testimonialsCollection.find(query);
             const testimonials = await cursor.toArray();
@@ -56,7 +56,7 @@ async function run() {
         });
 
         // single testimonial
-        app.get('/testimonials/:id', async(req, res) => {
+        app.get('/testimonials/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const testimonial = await testimonialsCollection.findOne(query);
@@ -65,7 +65,7 @@ async function run() {
         });
 
         // all products
-        app.get('/inventory', async(req, res) => {
+        app.get('/inventory', async (req, res) => {
             const query = {};
             const cursor = productsCollection.find(query);
             const products = await cursor.toArray();
@@ -74,7 +74,7 @@ async function run() {
         });
 
         // single product
-        app.get('/inventory/:id', async(req, res) => {
+        app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const product = await productsCollection.findOne(query);
@@ -83,14 +83,14 @@ async function run() {
         });
 
         // add product
-        app.post('/add-item', async(req, res) => {
+        app.post('/add-item', async (req, res) => {
             const newItem = req.body;
             const result = await productsCollection.insertOne(newItem);
             res.send(result);
         });
 
         // delete product
-        app.delete('/inventory/:id', async(req, res) => {
+        app.delete('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await productsCollection.deleteOne(query);
@@ -99,9 +99,9 @@ async function run() {
         });
 
         // update product
-        app.put('/inventory/:id', async(req, res) => {
+        app.put('/inventory/:id', async (req, res) => {
             const id = req.params.id;
-            const updateProduct = req ? .body;
+            const updateProduct = req?.body;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateStock = {
@@ -114,14 +114,14 @@ async function run() {
         });
 
         // add user items
-        app.post('/add-my-items', async(req, res) => {
+        app.post('/add-my-items', async (req, res) => {
             const newItem = req.body;
             const result = await myItemsCollection.insertOne(newItem);
             res.send(result);
         });
 
         // display user items
-        app.get('/my-items', verifyJWT, async(req, res) => {
+        app.get('/my-items', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
             const email = req.query.email;
             if (email === decodedEmail) {
@@ -136,7 +136,7 @@ async function run() {
         });
 
         // delete my items
-        app.delete('/my-items/:id', async(req, res) => {
+        app.delete('/my-items/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await myItemsCollection.deleteOne(query);
