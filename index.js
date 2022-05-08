@@ -120,20 +120,7 @@ async function run() {
             res.send(result);
         });
 
-        // display user items
-        app.get('/my-items', verifyJWT, async (req, res) => {
-            const decodedEmail = req.decoded.email;
-            const email = req.query.email;
-            if (email === decodedEmail) {
-                const query = { email: email };
-                const cursor = myItemsCollection.find(query);
-                const products = await cursor.toArray();
 
-                res.send(products);
-            } else {
-                res.status(403).send({ message: 'Forbidden Access' });
-            }
-        });
 
         // delete my items
         app.delete('/my-items/:id', async (req, res) => {
