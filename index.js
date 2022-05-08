@@ -130,9 +130,8 @@ async function run() {
                 const products = await cursor.toArray();
 
                 res.send(products);
-            } else {
-                res.status(403).send({ message: 'Forbidden Access' });
             }
+
         });
 
         // delete my items
